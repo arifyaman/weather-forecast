@@ -21,16 +21,7 @@ public class Place {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne
-    private ForecastStatement forecastStatement;
-
     private String name;
-
-    private String phenomenon;
-
-    private Integer minTemperature;
-
-    private Integer maxTemperature;
 
     @CreationTimestamp
     private Instant createdAt;

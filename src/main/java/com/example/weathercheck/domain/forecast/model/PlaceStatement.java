@@ -1,6 +1,5 @@
 package com.example.weathercheck.domain.forecast.model;
 
-import com.example.weathercheck.domain.forecast.model.sub.ForecastStatementType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,32 +9,33 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "forecast_statement")
+@Table(name = "place_statement")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ForecastStatement {
+public class PlaceStatement {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private UUID id;
 
     @ManyToOne
-    private Forecast forecast;
+    private ForecastStatement forecastStatement;
 
-    @Enumerated(EnumType.STRING)
-    private ForecastStatementType type;
+    @ManyToOne
+    private Place place;
 
     private String phenomenon;
-    private String statement;
 
     private Integer minTemperature;
+
     private Integer maxTemperature;
 
     @CreationTimestamp
     private Instant createdAt;
+
     @UpdateTimestamp
     private Instant modifiedAt;
 }

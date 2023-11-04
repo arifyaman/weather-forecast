@@ -18,25 +18,17 @@ import java.net.http.HttpResponse;
 @Slf4j
 @Component
 public class XMLWeatherClient extends HttpClient implements WeatherClient {
-    private final JAXBContext jaxbContext;
-    private final Unmarshaller unmarshaller;
 
-    public XMLWeatherClient(@Value("${app.client.xml.lang}") String lang) {
-        super("https://www.ilmateenistus.ee/ilma_andmed/xml/forecast.php?lang=%s".formatted(lang));
-        try {
-            this.jaxbContext = JAXBContext.newInstance(XMLForecasts.class);
-            this.unmarshaller = jaxbContext.createUnmarshaller();
-        } catch (JAXBException e) {
-            log.error("Cannot create XMLClient please check logs for JAXB", e);
-            log.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
+    public XMLWeatherClient(@Value("${app.client.xml.api}") String api, @Value("${app.client.xml.lang}") String lang) {
+        super("%s?lang=%s".formatted(api, lang));
     }
 
     public XMLForecasts getForecasts() throws URISyntaxException, IOException, InterruptedException, JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(XMLForecasts.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
         HttpResponse<String> response = get();
         return (XMLForecasts) unmarshaller
                 .unmarshal(new StringReader(response.body()));
     }
-
 }
