@@ -19,10 +19,12 @@ If you don't have docker please check [here](#getting-started-without-docker)
 
 
 If you have docker installed on your machine you can start all services with one below command.
+
+
 1.
-   ```bash
-   docker-compose up -d
-   ```
+      ```bash
+      docker-compose up -d
+      ```
 
 2. After you see all containers are up and running please go to http://localhost
 
@@ -50,7 +52,7 @@ If you have docker installed on your machine you can start all services with one
    ./gradlew :web:run
    ```
    
-    Or optionally if you have `npm` installed, in `/web/weather-check-ui` directory you can run 
+    Or optionally if you have `npm` installed, in `/web/weather-forecast-ui` directory you can run 
    ```bash
    npm install && npm run dev
    ```

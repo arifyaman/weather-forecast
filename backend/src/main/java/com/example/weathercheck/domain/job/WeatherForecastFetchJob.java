@@ -29,7 +29,7 @@ public class WeatherForecastFetchJob {
         try {
             weatherForecastService.writeData(client.getForecasts());
         } catch (URISyntaxException e) {
-            log.error("URI problem", e);
+            log.error("URI issue", e);
         } catch (IOException e) {
             log.error("IOException issue", e);
         } catch (InterruptedException e) {

@@ -23,5 +23,4 @@ public abstract class HttpClient {
 
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
-
 }

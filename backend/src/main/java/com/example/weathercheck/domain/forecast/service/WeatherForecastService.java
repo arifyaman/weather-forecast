@@ -48,7 +48,6 @@ public class WeatherForecastService {
         }
     }
 
-
     private WeatherForecastResponse toResponse(List<PlaceStatement> placeStatements) {
         Map<Forecast, List<PlaceStatement>> groupedForecastStatements = placeStatements.stream()
                 .collect(Collectors.groupingBy(placeStatement -> placeStatement.getForecastStatement().getForecast(), LinkedHashMap::new, Collectors.toList()));
