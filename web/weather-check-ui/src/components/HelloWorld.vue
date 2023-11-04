@@ -1,12 +1,16 @@
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
-    <h3>You can retrieve weather forecast details by providing both start and end dates along with your location.</h3>
+    <h3>
+      You can retrieve weather forecast details by providing both start and end dates along with
+      your location.
+    </h3>
     <a-space direction="vertical">
       <a-row justify="start" :gutter="[16, 16]">
         <a-col>
           <a-date-picker
             v-model:value="weatherForecastStore.state.searchParams.start"
+            id="start-date-input"
             :format="defaultDateFormat"
             :disabled-date="disabledStartDate"
             :valueFormat="defaultDateFormat"
@@ -17,6 +21,7 @@
         <a-col>
           <a-date-picker
             v-model:value="weatherForecastStore.state.searchParams.end"
+            id="end-date-input"
             :format="defaultDateFormat"
             :disabled-date="disabledEndDate"
             :valueFormat="defaultDateFormat"
@@ -45,8 +50,13 @@
               </div>
             </template>
             <a-input-search
-              :name="'select-place-search-input'"
-              @search="() => {weatherForecastStore.state.searchParams.placeId =null; search()}"
+              name="select-place-search-input"
+              @search="
+                () => {
+                  weatherForecastStore.state.searchParams.placeId = null
+                  search()
+                }
+              "
               placeholder="Select your place"
               allow-clear
               enter-button
@@ -105,7 +115,7 @@ const disabledEndDate = (current: Dayjs) => {
 const search = async () => {
   const start = dayjs(weatherForecastStore.state.searchParams.start)
   const end = dayjs(weatherForecastStore.state.searchParams.end)
-  if(end < start) weatherForecastStore.state.searchParams.end = start.format(defaultDateFormat)
+  if (end < start) weatherForecastStore.state.searchParams.end = start.format(defaultDateFormat)
   await weatherForecastStore.loadForecasts()
 }
 
@@ -132,6 +142,9 @@ h1 {
 
 h3 {
   font-size: 1.2rem;
+}
+.greetings {
+  margin: 20px 0 20px;
 }
 
 .greetings h1,

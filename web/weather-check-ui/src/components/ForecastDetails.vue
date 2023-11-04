@@ -1,6 +1,15 @@
 <template>
   <div class="overflow">
     <a-skeleton :loading="loadingData">
+      <a-empty v-if="weatherForecastStore.state.forecastResponse.forecasts.length == 0"
+      >
+        <template #description>
+          <span>
+            We couldn't find a forecast that matches the criteria you selected. Please double-check the dates or location you provided.
+          </span>
+        </template>
+      </a-empty>
+
       <a-space direction="vertical">
         <a-card
           v-for="forecast in weatherForecastStore.state.forecastResponse.forecasts"

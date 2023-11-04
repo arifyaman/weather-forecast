@@ -11,3 +11,21 @@ services:
       POSTGRES_PASSWORD: weather
     ports:
       - "5432:5432"
+  backend:
+    image: weather-forecast-backend:0.1
+    container_name: weather-forecast-backend
+    build:
+      dockerfile: backend.Dockerfile
+    links:
+      - db
+    depends_on:
+      - db
+  frontend:
+    image: weather-forecast-web:0.1
+    container_name: weather-forecast-ui
+    build:
+      dockerfile: web.Dockerfile
+    ports:
+      - "80:80"
+    links:
+      - backend

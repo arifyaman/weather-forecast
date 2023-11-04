@@ -1,7 +1,7 @@
 FROM node:lts-alpine AS builder
 
 WORKDIR /usr/app
-COPY ./ /usr/app
+COPY web/weather-check-ui /usr/app
 RUN npm install && npm run build
 
 FROM nginx:mainline-alpine3.18-slim
