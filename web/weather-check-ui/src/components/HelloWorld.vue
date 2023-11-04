@@ -103,6 +103,9 @@ const disabledEndDate = (current: Dayjs) => {
 }
 
 const search = async () => {
+  const start = dayjs(weatherForecastStore.state.searchParams.start)
+  const end = dayjs(weatherForecastStore.state.searchParams.end)
+  if(end < start) weatherForecastStore.state.searchParams.end = start.format(defaultDateFormat)
   await weatherForecastStore.loadForecasts()
 }
 

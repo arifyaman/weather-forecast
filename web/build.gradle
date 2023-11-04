@@ -1,19 +1,19 @@
 plugins {
-    id 'java'
+    id "com.github.node-gradle.node" version "7.0.1"
 }
 
 group = 'com.example.weathercheck'
-version = '0.0.1-SNAPSHOT'
+
+node {
+    nodeProjectDir = file("${project.projectDir}/weather-check-ui")
+    nodeProxySettings = ProxySettings.SMART
+}
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
+tasks.register('run', NpmTask) {
+    dependsOn npmInstall
+    args = ['run', 'dev']
 }
