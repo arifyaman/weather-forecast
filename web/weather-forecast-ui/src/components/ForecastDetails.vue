@@ -1,6 +1,6 @@
 <template>
   <div class="overflow">
-    <a-skeleton :loading="loadingData">
+    <a-skeleton :loading="loadingData || weatherForecastStore.state.loading">
       <a-empty v-if="weatherForecastStore.state.forecastResponse.forecasts.length == 0"
       >
         <template #description>
@@ -30,7 +30,7 @@
             </span>
           </template>
 
-          <p>
+          <p class="centered-text">
             <b>{{ forecast.details[forecast.selectedKey].phenomenon }}</b>
           </p>
           <p>
@@ -46,7 +46,7 @@
             style="width: 100%"
             :title="forecast.details[forecast.selectedKey].placeForecast.name"
           >
-            <p>
+            <p class="centered-text">
               <b>{{ forecast.details[forecast.selectedKey].placeForecast.phenomenon }}</b>
             </p>
             <p>
@@ -79,6 +79,10 @@ onMounted(async () => {
 })
 </script>
 <style scoped>
+
+.centered-text {
+  text-align: center;
+}
 .overflow {
   max-height: 100vh;
   overflow: scroll;

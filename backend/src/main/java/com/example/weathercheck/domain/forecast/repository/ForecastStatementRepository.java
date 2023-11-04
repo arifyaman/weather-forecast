@@ -16,6 +16,6 @@ import java.util.UUID;
 public interface ForecastStatementRepository extends JpaRepository<ForecastStatement, UUID> {
     Optional<ForecastStatement> findByForecastAndType(Forecast forecast, ForecastStatementType type);
 
-    @Query("SELECT fs from ForecastStatement fs where fs.forecast.date >= :after and fs.forecast.date <= :before order by fs.forecast.date")
+    @Query("SELECT fs from ForecastStatement fs where fs.forecast.date >= :after and fs.forecast.date <= :before order by fs.forecast.date, fs.type")
     List<ForecastStatement> findForecastStatementForecasts(LocalDate after, LocalDate before);
 }

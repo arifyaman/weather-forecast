@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import SearchCriteria from './components/SearchCriteria.vue'
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import HelloWorld from './components/HelloWorld.vue'
   >
     <header>
       <div class="wrapper">
-        <HelloWorld msg="Hey welcome to weather forecast!" />
+        <SearchCriteria msg="Hi, welcome to the weather forecast service!" />
       </div>
     </header>
 
