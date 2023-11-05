@@ -6,7 +6,7 @@ group = 'com.example.weathercheck.web'
 version = '0.0.1'
 
 node {
-    nodeProjectDir = file("${project.projectDir}/weather-check-ui")
+    nodeProjectDir = file("${project.projectDir}/weather-forecast-ui")
     nodeProxySettings = ProxySettings.SMART
 }
 
