@@ -3,8 +3,6 @@ package com.example.weathercheck;
 import com.example.weathercheck.client.impl.XMLWeatherClient;
 import com.example.weathercheck.helper.IntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.mockito.Spy;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import javax.xml.bind.JAXBException;
