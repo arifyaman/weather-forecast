@@ -13,7 +13,7 @@
       <a-space direction="vertical">
         <a-card
           v-for="forecast in weatherForecastStore.state.forecastResponse.forecasts"
-          v-bind:key="forecast.date"
+          :key="forecast.date"
           style="width: 100%"
           :title="forecast.date"
           :tab-list="forecast.tabs"
@@ -31,31 +31,31 @@
           </template>
 
           <p class="centered-text">
-            <b>{{ forecast.details[forecast.selectedKey].phenomenon }}</b>
+            <b>{{ getSelectedDetails(forecast).phenomenon }}</b>
           </p>
           <p>
-            <b>Min Temperature:</b> {{ forecast.details[forecast.selectedKey].minTemperature }}°C
+            <b>Min Temperature:</b> {{ getSelectedDetails(forecast).minTemperature }}°C
           </p>
           <p>
-            <b>Max Temperature:</b> {{ forecast.details[forecast.selectedKey].maxTemperature }}°C
+            <b>Max Temperature:</b> {{ getSelectedDetails(forecast).maxTemperature }}°C
           </p>
-          <p>{{ forecast.details[forecast.selectedKey].statement }}</p>
+          <p>{{ getSelectedDetails(forecast).statement }}</p>
 
           <a-card
-            v-if="forecast.details[forecast.selectedKey].placeForecast"
+            v-if="getSelectedDetails(forecast).placeForecast"
             style="width: 100%"
-            :title="forecast.details[forecast.selectedKey].placeForecast.name"
+            :title="getSelectedDetails(forecast).placeForecast.name"
           >
             <p class="centered-text">
-              <b>{{ forecast.details[forecast.selectedKey].placeForecast.phenomenon }}</b>
+              <b>{{ getSelectedDetails(forecast).placeForecast.phenomenon }}</b>
             </p>
-            <p>
+            <p v-if="getSelectedDetails(forecast).placeForecast.minTemperature">
               <b>Min Temperature:</b>
-              {{ forecast.details[forecast.selectedKey].placeForecast.minTemperature }}°C
+              {{ getSelectedDetails(forecast).placeForecast.minTemperature }}°C
             </p>
-            <p>
+            <p v-if="getSelectedDetails(forecast).placeForecast.maxTemperature">
               <b>Max Temperature:</b>
-              {{ forecast.details[forecast.selectedKey].placeForecast.maxTemperature }}°C
+              {{ getSelectedDetails(forecast).placeForecast.maxTemperature }}°C
             </p>
           </a-card>
         </a-card>
@@ -67,10 +67,15 @@
 import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useWeatherForecastStore } from '@/store/weatherForecastStore'
+import { TransformedForecast } from '@/types/weather/weather.types';
 
 const weatherForecastStore = useWeatherForecastStore()
 
 const loadingData = ref<boolean>(true)
+
+const getSelectedDetails = (forecast: TransformedForecast) => {
+  return forecast.details[forecast.selectedKey]
+}
 
 onMounted(async () => {
   await weatherForecastStore.loadForecasts()

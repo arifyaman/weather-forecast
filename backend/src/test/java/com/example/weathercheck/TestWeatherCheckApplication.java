@@ -17,7 +17,7 @@ public class TestWeatherCheckApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.from(WeatherCheckApplication::main).with(TestWeatherCheckApplication.class).run(args);
+        SpringApplication.from(WeatherForecastApplication::main).with(TestWeatherCheckApplication.class).run(args);
     }
 
 }

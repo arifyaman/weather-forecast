@@ -45,3 +45,15 @@ export const WeatherForecastResponse = z.object({
   forecasts: z.array(GroupedForecast)
 })
 export type WeatherForecastResponse = z.infer<typeof WeatherForecastResponse>
+
+
+export interface TransformedForecast {
+  date: string
+  tabs: { key: string; tab: string }[]
+  selectedKey: string
+  details: Record<string, WeatherForecastStatementResponse>
+}
+
+export interface TransformedWeatherForecastResponse {
+  forecasts?: TransformedForecast[]
+}

@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class WeatherCheckApplication {
+public class WeatherForecastApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WeatherCheckApplication.class, args);
+        SpringApplication.run(WeatherForecastApplication.class, args);
     }
 
 }

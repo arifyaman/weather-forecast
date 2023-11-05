@@ -5,6 +5,7 @@ import com.example.weathercheck.domain.forecast.service.WeatherForecastService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,15 +20,22 @@ public class WeatherForecastFetchJob {
     private final XMLWeatherClient client;
     private final WeatherForecastService weatherForecastService;
 
+    @Value("${app.job.weather-forecast-fetch.disabled:false}")
+    private boolean disabled;
+
     @PostConstruct
     void afterInit() {
-        run();
+        if (!disabled)
+            run();
     }
 
     @Scheduled(cron = "${app.job.weather-forecast-fetch.cron}")
     public void run() {
+        if (disabled) return;
+
         try {
             weatherForecastService.writeData(client.getForecasts());
+            log.info("Forecast data has been updated.");
         } catch (URISyntaxException e) {
             log.error("URI issue", e);
         } catch (IOException e) {

@@ -5,30 +5,20 @@ import {
   ForecastStatementType,
   WeatherForecastResponse,
   WeatherForecastRequest,
-  WeatherForecastStatementResponse
+  WeatherForecastStatementResponse,
+  TransformedWeatherForecastResponse,
 } from '@/types/weather/weather.types'
-
+import { useNotificationService } from '@/service/NotificationService'
 
 export const useWeatherForecastStore = defineStore('weatherForecastStore', () => {
+  const notificationService = useNotificationService()
+  const errorFromResponse = notificationService.errorFromResponse
 
   const state = ref({
     forecastResponse: ref<TransformedWeatherForecastResponse>({}),
     searchParams: ref<WeatherForecastRequest>({}),
     loading: false
   })
-
-  interface TransformedForecast {
-    date: string
-    tabs: { key: string; tab: string }[]
-    selectedKey: string
-    details: Record<string, WeatherForecastStatementResponse>
-  }
-  
-  interface TransformedWeatherForecastResponse {
-    forecasts?: TransformedForecast[]
-  }
-
-  
 
   const transformDetailsToMap = (
     data: WeatherForecastResponse
@@ -51,15 +41,13 @@ export const useWeatherForecastStore = defineStore('weatherForecastStore', () =>
     }
     return transformedData
   }
-  
+
   const getTabName = (type: ForecastStatementType): string => {
     return type === 'DAY' ? 'Day' : 'Night'
   }
 
-
   const reset = () => {
-    state.value.loading = false,
-    state.value.modal = false
+    ;(state.value.loading = false), (state.value.modal = false)
   }
 
   const loadForecasts = async () => {
