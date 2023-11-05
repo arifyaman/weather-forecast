@@ -2,7 +2,8 @@
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You can access past or future weather forecast information by specifying the desired dates and location.
+      You can access past or future weather forecast information by specifying the desired dates and
+      location.
     </h3>
     <a-space direction="vertical">
       <a-row justify="start" :gutter="[16, 16]">
@@ -40,6 +41,7 @@
             :dropdown-match-select-width="252"
             :filterOption="filterOption"
             @select="onSelect"
+            @search="search"
           >
             <template #option="item">
               <div class="space-between">
@@ -50,12 +52,6 @@
             </template>
             <a-input-search
               name="select-place-search-input"
-              @search="
-                () => {
-                  weatherForecastStore.state.searchParams.placeId = null
-                  search()
-                }
-              "
               placeholder="Select your place"
               allow-clear
               enter-button
@@ -75,7 +71,10 @@ import { useWeatherForecastStore } from '@/store/weatherForecastStore'
 import { defaultDateFormat } from '@/types/dateFormat'
 import dayjs from 'dayjs'
 import { Dayjs } from 'dayjs'
+import { useNotificationService } from '@/service/NotificationService'
 
+const notificationService = useNotificationService()
+const errorFromResponse = notificationService.errorFromResponse
 const weatherForecastStore = useWeatherForecastStore()
 
 defineProps<{
@@ -96,7 +95,14 @@ const filterOption = (input: string, option: PlaceOption) => {
 
 const onSelect = async (option: PlaceOption) => {
   weatherForecastStore.state.searchParams.placeId = option.label.id
-  await weatherForecastStore.loadForecasts()
+  loadForecasts()
+}
+
+const loadForecasts = () => {
+  const start = dayjs(weatherForecastStore.state.searchParams.start)
+  const end = dayjs(weatherForecastStore.state.searchParams.end)
+  if (end < start) weatherForecastStore.state.searchParams.end = start.format(defaultDateFormat)
+  weatherForecastStore.loadForecasts()
 }
 
 const disabledStartDate = (current: Dayjs) => {
@@ -111,11 +117,11 @@ const disabledEndDate = (current: Dayjs) => {
   return (current && current < start) || (current && current > start.add(1, 'month'))
 }
 
-const search = async () => {
-  const start = dayjs(weatherForecastStore.state.searchParams.start)
-  const end = dayjs(weatherForecastStore.state.searchParams.end)
-  if (end < start) weatherForecastStore.state.searchParams.end = start.format(defaultDateFormat)
-  await weatherForecastStore.loadForecasts()
+const search = async (searchText: string) => {
+  if (searchText === '') {
+    weatherForecastStore.state.searchParams.placeId = null
+  }
+  loadForecasts()
 }
 
 onMounted(async () => {
@@ -126,7 +132,7 @@ onMounted(async () => {
       label: p
     }))
   } catch (error) {
-    console.log(error)
+    errorFromResponse(error)
   }
 })
 </script>

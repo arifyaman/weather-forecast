@@ -63,6 +63,8 @@ If you have docker installed on your machine you can start all services with one
 
 To use the Weather Forecast Service, follow these steps:
 
+![Application Screenshot](.img/example.png)
+
 1. Open the web application in your browser.
 
 2. Use the search form to enter the desired date, date range, and/or location.

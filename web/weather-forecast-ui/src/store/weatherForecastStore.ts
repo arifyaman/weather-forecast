@@ -6,9 +6,10 @@ import {
   WeatherForecastResponse,
   WeatherForecastRequest,
   WeatherForecastStatementResponse,
-  TransformedWeatherForecastResponse,
+  TransformedWeatherForecastResponse
 } from '@/types/weather/weather.types'
 import { useNotificationService } from '@/service/NotificationService'
+import dayjs from 'dayjs'
 
 export const useWeatherForecastStore = defineStore('weatherForecastStore', () => {
   const notificationService = useNotificationService()
@@ -23,8 +24,9 @@ export const useWeatherForecastStore = defineStore('weatherForecastStore', () =>
   const transformDetailsToMap = (
     data: WeatherForecastResponse
   ): TransformedWeatherForecastResponse => {
-    const transformedData: TransformedWeatherForecastResponse = {
+    return {
       forecasts: data.forecasts.map((forecast) => {
+        const day = dayjs(forecast.date).format('dddd')
         const detailsMap: Record<string, WeatherForecastStatementResponse> = {}
         const tabs = []
         forecast.details.forEach((detail) => {
@@ -33,21 +35,17 @@ export const useWeatherForecastStore = defineStore('weatherForecastStore', () =>
         })
         return {
           date: forecast.date,
+          day: day,
           tabs: tabs,
           selectedKey: tabs[0].key,
           details: detailsMap
         }
       })
     }
-    return transformedData
   }
 
   const getTabName = (type: ForecastStatementType): string => {
     return type === 'DAY' ? 'Day' : 'Night'
-  }
-
-  const reset = () => {
-    ;(state.value.loading = false), (state.value.modal = false)
   }
 
   const loadForecasts = async () => {
@@ -64,5 +62,5 @@ export const useWeatherForecastStore = defineStore('weatherForecastStore', () =>
     }
   }
 
-  return { state, loadForecasts, reset }
+  return { state, loadForecasts }
 })

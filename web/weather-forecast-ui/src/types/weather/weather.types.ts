@@ -49,6 +49,7 @@ export type WeatherForecastResponse = z.infer<typeof WeatherForecastResponse>
 
 export interface TransformedForecast {
   date: string
+  day: string
   tabs: { key: string; tab: string }[]
   selectedKey: string
   details: Record<string, WeatherForecastStatementResponse>
